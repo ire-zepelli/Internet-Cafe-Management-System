@@ -53,7 +53,5 @@ public class Header{
             }});
 
         timer.start();
-
-
     }
 }
