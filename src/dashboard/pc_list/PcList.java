@@ -38,8 +38,7 @@ public class PcList {
             pcPanels[i].setBounds(xPos, yPos, panelWidth, panelHeight);
             pcPanels[i].setLayout(null);
 
-            JPanel imagePanel = createPCPanel("C:\\Users\\USER\\Desktop\\Armonia\\Internet-Cafe-Management-System\\public\\red-pc-icon.png",
-                0, 0, panelWidth, panelHeight);
+            JPanel imagePanel = createPCPanel("C:\\Users\\USER\\Desktop\\Armonia\\Internet-Cafe-Management-System\\public\\red-pc-icon.png", 0, 0, panelWidth, panelHeight);
             pcPanels[i].add(imagePanel);
             mainPanel.add(pcPanels[i]);
         }

@@ -3,6 +3,7 @@ package dashboard;
 import javax.swing.*;
 
 import create_component.Create_Component;
+import dashboard.labels.Labels;
 import dashboard.pc_list.PcList;
 
 import java.awt.*;
@@ -32,13 +33,15 @@ public class Dashboard {
         content.setBounds(75, 115, 900, 615);
         content.setBackground(new Color(36, 37, 42));
         content.setLayout(null);
-
+        
         content.add(storeName);
         content.add(PcList.getPcList());
+        content.add(Labels.getLabels());
         mainPanel.add(content);
         mainPanel.add(Header.getHeader());
         mainPanel.add(hr);
         mainPanel.add(SideBar.getSideBar());
+        
     }
 
     public JPanel getPanel() {
