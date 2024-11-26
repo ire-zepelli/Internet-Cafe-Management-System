@@ -3,6 +3,7 @@ package sidebar;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Cursor;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -32,6 +33,7 @@ public class SideBar {
 
         return sidebar;
     }
+    
     public static JButton addIcons(int x, int y, String imagePath, boolean isSelected){
         JButton icon = new JButton();
 
@@ -48,10 +50,12 @@ public class SideBar {
             icon.setEnabled(false);
             icon.setBackground(new Color(36,37,42));
         }
+        
         else{
             icon.setBackground(new Color(23, 26, 30));
         }
 
+        icon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         icon.add(vr);
         icon.add(iconImage);
 

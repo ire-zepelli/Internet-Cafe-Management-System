@@ -97,7 +97,7 @@ public class Create_Component {
         return label;
     }
 
-           public static JButton Button(int x, int y, int w, int h, String text , String fontFamily, int fontWeight, int fontSize, int r, int g, int b, int fr, int fg, int fb){
+        public static JButton Button(int x, int y, int w, int h, String text , String fontFamily, int fontWeight, int fontSize, int r, int g, int b, int fr, int fg, int fb){
         JButton button = new JButton(text);
         button.setBounds(x, y,w, h);
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));

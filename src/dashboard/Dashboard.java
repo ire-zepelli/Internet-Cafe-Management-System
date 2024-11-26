@@ -8,6 +8,7 @@ import dashboard.pc_list.PcList;
 
 import java.awt.*;
 import header.*;
+import pc_description.PCDescription;
 import sidebar.SideBar;
 
 public class Dashboard {
@@ -35,13 +36,13 @@ public class Dashboard {
         content.setLayout(null);
         
         content.add(storeName);
+        content.add(PCDescription.getPCDescription());
         content.add(PcList.getPcList());
         content.add(Labels.getLabels());
         mainPanel.add(content);
         mainPanel.add(Header.getHeader());
         mainPanel.add(hr);
         mainPanel.add(SideBar.getSideBar());
-        
     }
 
     public JPanel getPanel() {

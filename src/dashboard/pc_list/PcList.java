@@ -38,18 +38,15 @@ public class PcList {
             pcPanels[i].setBounds(xPos, yPos, panelWidth, panelHeight);
             pcPanels[i].setLayout(null);
 
-            JPanel imagePanel = createPCPanel("C:\\Users\\USER\\Desktop\\Armonia\\Internet-Cafe-Management-System\\public\\red-pc-icon.png", 0, 0, panelWidth, panelHeight);
+            JPanel imagePanel = createPCPanel("public/red-pc-icon.png", 0, 0, panelWidth, panelHeight);
             pcPanels[i].add(imagePanel);
+
+            pcPanels[i].setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            
             mainPanel.add(pcPanels[i]);
         }
 
         return mainPanel;
-    }
-
-    public static JPanel addPc(int pcNumber, Color c) {
-        JPanel pcPanel = new JPanel();
-        pcPanel.setPreferredSize(new Dimension(100, 100));
-        return pcPanel;
     }
 
     public static JPanel createPCPanel(String imagePath, int x, int y, int w, int h) {
