@@ -9,6 +9,38 @@ import java.io.File;
 import java.io.IOException;
 
 public class Create_Component {
+        public static JButton createRoundedButton(String text, int x, int y, int width, int height, int arcWidth, int arcHeight, Color foregroundColor, Color backgroundColor){
+        JButton button = new JButton()
+        {
+            @Override
+            protected void paintComponent(Graphics g) 
+            {
+                super.paintComponent(g);
+                Dimension arcs = new Dimension(arcWidth, arcHeight);
+                int width = getWidth();
+                int height = getHeight();
+                Graphics2D graphics = (Graphics2D) g;
+                graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+
+                //Draws the rounded opaque panel with borders.
+                graphics.setColor(getBackground());
+                graphics.fillRoundRect(0, 0, width-1, height-1, arcs.width, arcs.height);//paint background
+                graphics.setColor(getForeground());
+                graphics.drawRoundRect(0, 0, width-1, height-1, arcs.width, arcs.height);//paint border
+            }
+        };
+
+
+        button.setText(text);
+        button.setBounds(x, y, width, height);
+        button.setOpaque(false);
+        button.setForeground(foregroundColor);
+        button.setBackground(backgroundColor);
+        button.setLayout(null);
+
+        return button;
+    }
 
          public static JPanel ImagePanel(String imagePath, int x, int y, int w, int h)
             {
