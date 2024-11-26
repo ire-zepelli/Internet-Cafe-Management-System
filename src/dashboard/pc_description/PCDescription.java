@@ -1,4 +1,4 @@
-package pc_description;
+package dashboard.pc_description;
 
 import javax.swing.*;
 import java.awt.*;

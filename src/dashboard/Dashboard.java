@@ -4,11 +4,11 @@ import javax.swing.*;
 
 import create_component.Create_Component;
 import dashboard.labels.Labels;
+import dashboard.pc_description.PCDescription;
 import dashboard.pc_list.PcList;
 
 import java.awt.*;
 import header.*;
-import pc_description.PCDescription;
 import sidebar.SideBar;
 
 public class Dashboard {
@@ -36,9 +36,9 @@ public class Dashboard {
         content.setLayout(null);
         
         content.add(storeName);
-        content.add(PCDescription.getPCDescription());
         content.add(PcList.getPcList());
         content.add(Labels.getLabels());
+        content.add(PCDescription.getPCDescription());
         mainPanel.add(content);
         mainPanel.add(Header.getHeader());
         mainPanel.add(hr);

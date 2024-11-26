@@ -23,6 +23,7 @@ public class PcList {
         mainPanel.setBackground(new Color(83, 88, 94));
 
         JPanel[] pcPanels = new JPanel[25];
+        JLabel[] pcNumber = new JLabel[25];
 
         panelWidth = (mainPanel.getWidth() - (horizontalGap * (totalCols + 1))) / totalCols;
         panelHeight = (mainPanel.getHeight() - (verticalGap * (totalRows + 1))) / totalRows;
@@ -37,6 +38,16 @@ public class PcList {
             pcPanels[i].setBackground(Color.decode("#232529"));
             pcPanels[i].setBounds(xPos, yPos, panelWidth, panelHeight);
             pcPanels[i].setLayout(null);
+
+            pcNumber[i] = new JLabel();
+            pcNumber[i].setBounds(29,11,30,30);
+            pcNumber[i].setForeground(Color.decode("#A62122"));
+            pcNumber[i].setFont(new Font("Comic Sans", Font.BOLD, 25));
+
+            if(i > 8) pcNumber[i].setText((i+1)+"");
+            else pcNumber[i].setText(" "+(i+1));
+
+            pcPanels[i].add(pcNumber[i]);
 
             JPanel imagePanel = createPCPanel("public/red-pc-icon.png", 0, 0, panelWidth, panelHeight);
             pcPanels[i].add(imagePanel);
