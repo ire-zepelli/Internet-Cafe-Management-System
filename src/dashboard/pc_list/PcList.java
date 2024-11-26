@@ -2,7 +2,12 @@ package dashboard.pc_list;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import dashboard.pc_description.PCDescription;
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -22,7 +27,7 @@ public class PcList {
         mainPanel.setBounds(35, 75, 500, 400);
         mainPanel.setBackground(new Color(83, 88, 94));
 
-        JPanel[] pcPanels = new JPanel[25];
+        JButton[] pcPanels = new JButton[25];
         JLabel[] pcNumber = new JLabel[25];
 
         panelWidth = (mainPanel.getWidth() - (horizontalGap * (totalCols + 1))) / totalCols;
@@ -34,10 +39,12 @@ public class PcList {
             xPos = horizontalGap + col * (panelWidth + horizontalGap);
             yPos = verticalGap + row * (panelHeight + verticalGap);
 
-            pcPanels[i] = new JPanel();
+            pcPanels[i] = new JButton();
             pcPanels[i].setBackground(Color.decode("#232529"));
             pcPanels[i].setBounds(xPos, yPos, panelWidth, panelHeight);
             pcPanels[i].setLayout(null);
+
+            addAction(pcPanels[i], i+1);
 
             pcNumber[i] = new JLabel();
             pcNumber[i].setBounds(29,11,30,30);
@@ -54,10 +61,20 @@ public class PcList {
 
             pcPanels[i].setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             
+
             mainPanel.add(pcPanels[i]);
         }
 
         return mainPanel;
+    }
+
+    public static void addAction(JButton btn, int pcNumber){
+        btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PCDescription.updateDescription("PC " + pcNumber);
+            }
+        });
     }
 
     public static JPanel createPCPanel(String imagePath, int x, int y, int w, int h) {

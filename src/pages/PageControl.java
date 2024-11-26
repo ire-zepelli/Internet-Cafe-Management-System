@@ -30,7 +30,7 @@ public class PageControl {
         frame.setLocationRelativeTo(null);
     }
     
-    public static void showDashboard(){
+    public static void showDashboard(int pcNumber){
         pages.show(panelCont, "dashboard");
     }
     
@@ -40,4 +40,3 @@ public class PageControl {
     //     pages.show(panelCont, "home");
     // }
 }
-    
