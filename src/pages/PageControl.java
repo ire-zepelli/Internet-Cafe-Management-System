@@ -1,6 +1,8 @@
 package pages;
 
 import javax.swing.*;
+
+import auth.Auth;
 import dashboard.Dashboard;
 import java.awt.*;
 
@@ -8,7 +10,8 @@ public class PageControl {
     JFrame frame = new JFrame("Armonia Internet Cafe");
     static JPanel panelCont = new JPanel();
     static CardLayout pages = new CardLayout();
-    Dashboard dashboard = new Dashboard();
+    Auth auth = new Auth();
+    static Dashboard dashboard;
 
 
     public PageControl(){
@@ -18,9 +21,9 @@ public class PageControl {
 
     public void initialize(){
         panelCont.setLayout(pages);
-        panelCont.add(dashboard.getPanel(), "dashboard");
+        panelCont.add(auth.getPanel(), "dashboard");
         
-        frame.setIconImage(Toolkit.getDefaultToolkit().getImage("public/icon.png"));
+        frame.setIconImage(Toolkit.getDefaultToolkit().getImage("public/armonia-logo-red.png"));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setSize(new Dimension(975, 725));
@@ -29,14 +32,21 @@ public class PageControl {
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
     }
-    
-    public static void showDashboard(int pcNumber){
-        pages.show(panelCont, "dashboard");
+
+    public static void showAuth(){
+        pages.show(panelCont, "auth");
     }
     
-    // public static void showHome(){
-    //     home = new Home();
-    //     panelCont.add(home.getPanel(), "home");
-    //     pages.show(panelCont, "home");
+    public static void showDashboard(){
+        dashboard = new Dashboard();
+        panelCont.add(dashboard.getPanel(), "dashboard");
+        pages.show(panelCont ,"dashboard");
+    }
+    
+    // public static void showDashboard(int selectedPC){
+    //     dashboard = new Dashboard(selectedPC);
+    //     panelCont.add(dashboard.getPanel(), "dashboard");
+    //     pages.show(panelCont ,"dashboard");
     // }
+
 }
