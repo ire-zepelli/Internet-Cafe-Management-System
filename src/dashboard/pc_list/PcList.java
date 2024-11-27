@@ -4,7 +4,9 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import create_component.Create_Component;
+import dashboard.Dashboard;
 import dashboard.pc_description.PCDescription;
+import pages.PageControl;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,30 +14,38 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
+import data.Data;
+import data.LinkedList;
+
 public class PcList {
     public static JPanel getPcList() {
+        
         int panelWidth = 70;
         int panelHeight = 60;
         int horizontalGap = 10;
         int verticalGap = 10;
         int totalRows = 5;
         int totalCols = 5;
-
+        
         int row, col, xPos, yPos;
-
+        
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(null);
         mainPanel.setBounds(35, 75, 500, 400);
         mainPanel.setBackground(new Color(83, 88, 94));
-
+        
         JButton[] pcPanels = new JButton[25];
         JLabel[] pcNumber = new JLabel[25];
         JLabel[] pcStatus = new JLabel[25];
 
         panelWidth = (mainPanel.getWidth() - (horizontalGap * (totalCols + 1))) / totalCols;
         panelHeight = (mainPanel.getHeight() - (verticalGap * (totalRows + 1))) / totalRows;
+                
 
         for (int i = 0; i < 25; i++) {
+            LinkedList data = Data.getData();            
+
+
             row = i / totalCols;
             col = i % totalCols;
             xPos = horizontalGap + col * (panelWidth + horizontalGap);
@@ -48,18 +58,19 @@ public class PcList {
             pcPanels[i].setBounds(xPos, yPos, panelWidth, panelHeight);
             pcPanels[i].setLayout(null);
 
-            String status = "", statusIcon = "";
+
+            String status = data.get(i)[1], statusIcon = "";
             
-            if(i < 26) status = "maintenance";
-            if(i < 16) status = "out-of-time";
-            if(i < 11) status = "in-session";
-            if(i < 6) status = "available";
+            // if(i < 26) status = "maintenance";
+            // if(i < 16) status = "out-of-time";
+            // if(i < 11) status = "in-session";
+            // if(i < 6) status = "available";
 
 
             if(status.equals("available")) statusIcon = "<html><span style='color: #00FF00; font-size: 14px;'>•</span></html>";
-            if(status.equals("in-session")) statusIcon = "<html><span style='color: yellow; font-size: 14px;'>•</span></html>";
-            if(status.equals("out-of-time")) statusIcon = "<html><span style='color: red; font-size: 14px;'>•</span></html>";
-            if(status.equals("maintenance")) statusIcon = "<html><span style='color: #FF00DD; font-size: 14px;'>•</span></html>";
+            else if(status.equals("in-session")) statusIcon = "<html><span style='color: yellow; font-size: 14px;'>•</span></html>";
+            else if(status.equals("out-of-time")) statusIcon = "<html><span style='color: red; font-size: 14px;'>•</span></html>";
+            else if(status.equals("maintenance")) statusIcon = "<html><span style='color: #FF00DD; font-size: 14px;'>•</span></html>";
 
 
             pcStatus[i] = new JLabel(statusIcon);
@@ -95,13 +106,12 @@ public class PcList {
             public void actionPerformed(ActionEvent e) {
                 switch (status) {
                     case "available":
-                      PCDescription.startSession("PC " + pcNumber);     
+                      PageControl.showDashboard(pcNumber);
                         break;
-                    case "maintenance":
-                      PCDescription.outOfOrder();
+                    case "in-session":
+                        PageControl.showDashboard(pcNumber);
                               break;
                     default:
-                        PCDescription.viewSession(pcNumber + "");
                         break;
                 }
             }
