@@ -22,7 +22,6 @@ public class Create_Component {
                 Graphics2D graphics = (Graphics2D) g;
                 graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-
                 //Draws the rounded opaque panel with borders.
                 graphics.setColor(getBackground());
                 graphics.fillRoundRect(0, 0, width-1, height-1, arcs.width, arcs.height);//paint background
@@ -142,7 +141,7 @@ public class Create_Component {
         return button;
     } 
 
-    public static JPanel Panel(int x, int y, int width, int height, int startR, int startG, int startB, int startA, int endR, int endG, int endB, int endA, int cornerRadius)
+   public static JPanel Panel(int x, int y, int width, int height, int startR, int startG, int startB, int startA, int endR, int endG, int endB, int endA, int cornerRadius)
     {
         JPanel panel = new JPanel()
         {
@@ -168,5 +167,5 @@ public class Create_Component {
         panel.setOpaque(false);
 
         return panel;
-    }
+    } 
 }
