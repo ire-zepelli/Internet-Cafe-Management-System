@@ -4,6 +4,9 @@ import javax.swing.*;
 
 import auth.Auth;
 import dashboard.Dashboard;
+import data.Data;
+import header.Header;
+
 import java.awt.*;
 
 public class PageControl {
@@ -20,6 +23,7 @@ public class PageControl {
 
 
     public void initialize(){
+        new Data();
         panelCont.setLayout(pages);
         panelCont.add(auth.getPanel(), "dashboard");
         
@@ -37,16 +41,10 @@ public class PageControl {
         pages.show(panelCont, "auth");
     }
     
-    public static void showDashboard(){
-        dashboard = new Dashboard();
+    public static void showDashboard(int selectedPC){
+        dashboard = new Dashboard(selectedPC);
         panelCont.add(dashboard.getPanel(), "dashboard");
         pages.show(panelCont ,"dashboard");
     }
-    
-    // public static void showDashboard(int selectedPC){
-    //     dashboard = new Dashboard(selectedPC);
-    //     panelCont.add(dashboard.getPanel(), "dashboard");
-    //     pages.show(panelCont ,"dashboard");
-    // }
 
 }

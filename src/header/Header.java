@@ -13,8 +13,8 @@ import java.time.LocalTime;
 
 public class Header{
     public static JPanel getHeader(){
-        JLabel time = Create_Component.Label(150, 0, 100, 100, "00:00", "Arial", Font.BOLD, 30, 255, 255, 255, 255, 255, 255);
-        JLabel date = Create_Component.Label(255, 0, 300, 100, "MM:DD:YY", "Arial", Font.BOLD, 20, 255, 255, 255, 255, 255, 255);
+        JLabel time = Create_Component.Label(150, 0, 100, 100, "", "Arial", Font.BOLD, 30, 255, 255, 255, 255, 255, 255);
+        JLabel date = Create_Component.Label(255, 0, 300, 100, "", "Arial", Font.BOLD, 20, 255, 255, 255, 255, 255, 255);
         JPanel armoniaLogo = Create_Component.ImagePanel("public/armonia-logo.png", 5, 0, 100, 100);
         JPanel header = new JPanel();
         JPanel logoPanel = new JPanel();

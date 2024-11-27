@@ -2,27 +2,41 @@ package dashboard.pc_description;
 
 import javax.swing.*;
 
+import data.Data;
+import pages.PageControl;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.LocalTime;
+import data.*;
 
 public class PCDescription {
-    static JLabel mainLabel = new JLabel("<html><div style='text-align: center;'>Select <br/> a PC <br/> to <br /> preview: </div></html>");
-    static JPanel mainPanel = new JPanel();
+    static JPanel mainPanel;
 
-    
-    public static JPanel getPCDescription () {
-        
-        mainPanel.setLayout(null);
-        mainPanel.setBounds(585, 30, 300, 500);
-        mainPanel.setBackground(new Color(83, 88, 94));
+    public static JPanel getPCDescription(int pc){
+        mainPanel = new JPanel();
+        if(pc == -1){
+            JLabel mainLabel = new JLabel("<html><div style='text-align: center;'>Select <br/> a PC <br/> to <br /> preview: </div></html>");
+            
+            mainPanel.setLayout(null);
+            mainPanel.setBounds(585, 30, 300, 500);
+            mainPanel.setBackground(new Color(83, 88, 94));
+            
+            mainLabel.setFont(new Font("Inter", Font.BOLD, 55));
+            mainLabel.setBounds(30,35,300,400);
+            mainLabel.setForeground(Color.WHITE);
+            mainPanel.add(mainLabel);
 
-        // mainLabel.setFont(new Font("Inter", Font.BOLD, 55));
-        // mainLabel.setBounds(30,35,300,400);
-        // mainLabel.setForeground(Color.WHITE);
-        // mainPanel.add(mainLabel);
+            return mainPanel;
+        }   
 
-        
-        JButton startButton = new JButton("START SESSION");
+        LinkedList data = Data.getData();
+        String sessionType = data.get(pc-1)[1];
+        String sessionLength = data.get(pc-1)[2];
+        String toPay = data.get(pc-1)[3];
+
+        JButton startButton = new JButton("CALCULATE PAY");
 
         startButton.setBounds(0,440,300,60);
         startButton.setBackground(Color.decode("#A62122"));
@@ -32,12 +46,55 @@ public class PCDescription {
         startButton.setLayout(null);
         startButton.setFocusPainted(false);
         startButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        mainPanel.add(startButton);
 
-        JLabel pcNumber = new JLabel("PC 1");
+        if(sessionType.equals("in-session")){
+            JLabel mainLabel = new JLabel("<html><p style='font-size: 25px; text-align: center;'> PC "+ pc + "<br/><br/>Time:" + sessionLength + "mins<br/>Total:P" +toPay+"</p></html>");
+            
+            mainPanel.setLayout(null);
+            mainPanel.setBounds(585, 30, 300, 500);
+            mainPanel.setBackground(new Color(83, 88, 94)); 
+            
+            mainLabel.setFont(new Font("Inter", Font.BOLD, 55));
+            mainLabel.setBounds(50,20,300,160);
+            mainLabel.setForeground(Color.WHITE);
+            mainPanel.add(mainLabel);
+
+            startButton.setText("End Session");
+            addAction(startButton, pc);
+
+            JLabel extendLabel= new JLabel("EXTEND TIME: ");
+            extendLabel.setFont(new Font("Inter",Font.BOLD, 10));
+            extendLabel.setForeground(Color.WHITE);
+            extendLabel.setBounds(20,160,100,100);
+            mainPanel.add(extendLabel);
+            
+            JButton extend30 = new JButton("+30");
+            extend30.setBounds(20,225,65,80);
+            extend30.setBackground(Color.decode("#232529"));
+            extend30.setForeground(Color.WHITE);
+            extend30.setLayout(null);
+            extend30.setFocusPainted(false);
+            extend30.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+            mainPanel.add(startButton);
+            mainPanel.add(extend30);
+
+            extendTime(extend30, mainLabel, pc);
+
+            return mainPanel;
+        }
+            
+            mainPanel.setLayout(null);
+            mainPanel.setBounds(585, 30, 300, 500);
+            mainPanel.setBackground(new Color(83, 88, 94));
+
+
+        mainPanel.add(startButton);
+        
+        JLabel pcNumber = new JLabel("PC "+ pc);
         pcNumber.setFont(new Font("Inter",Font.BOLD, 18));
         pcNumber.setForeground(Color.WHITE);
-        pcNumber.setBounds(130,0,50,50);
+        pcNumber.setBounds(130,0,55,50);
         mainPanel.add(pcNumber);
         
         JLabel categoryLabel = new JLabel("CATEGORY");
@@ -45,7 +102,7 @@ public class PCDescription {
         categoryLabel.setForeground(Color.WHITE);
         categoryLabel.setBounds(20,15,100,100);
         mainPanel.add(categoryLabel);
-
+        
         JButton guestButton = new JButton("G");
         guestButton.setFont(new Font("Inter",Font.PLAIN, 15));
         guestButton.setBounds(20,80,65,50);
@@ -54,44 +111,45 @@ public class PCDescription {
         guestButton.setLayout(null);
         guestButton.setFocusPainted(false);
         guestButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        guestButton.setEnabled(false);
         mainPanel.add(guestButton);
         
-        JButton studentButton = new JButton("S");
-        studentButton.setFont(new Font("Inter",Font.PLAIN, 15));
-        studentButton.setBounds(85,80,65,50);
-        studentButton.setBackground(Color.decode("#232529"));
-        studentButton.setForeground(Color.WHITE);
-        studentButton.setLayout(null);
-        studentButton.setFocusPainted(false);
-        studentButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        mainPanel.add(studentButton);
-
-        JButton vipButton = new JButton("VIP");
-        vipButton.setFont(new Font("Inter",Font.PLAIN, 15));
-        vipButton.setBounds(150,80,65,50);
-        vipButton.setBackground(Color.decode("#232529"));
-        vipButton.setForeground(Color.WHITE);
-        vipButton.setLayout(null);
-        vipButton.setFocusPainted(false);
-        vipButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        mainPanel.add(vipButton);
-
-        JButton adminButton = new JButton("A");
-        adminButton.setFont(new Font("Inter",Font.PLAIN, 15));
-        adminButton.setBounds(215,80,65,50);
-        adminButton.setBackground(Color.decode("#232529"));
-        adminButton.setForeground(Color.WHITE);
-        adminButton.setLayout(null);
-        adminButton.setFocusPainted(false);
-        adminButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        mainPanel.add(adminButton);
+        // JButton studentButton = new JButton("S");
+        // studentButton.setFont(new Font("Inter",Font.PLAIN, 15));
+        // studentButton.setBounds(85,80,65,50);
+        // studentButton.setBackground(Color.decode("#232529"));
+        // studentButton.setForeground(Color.WHITE);
+        // studentButton.setLayout(null);
+        // studentButton.setFocusPainted(false);
+        // studentButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        // mainPanel.add(studentButton);
+        
+        // JButton vipButton = new JButton("VIP");
+        // vipButton.setFont(new Font("Inter",Font.PLAIN, 15));
+        // vipButton.setBounds(150,80,65,50);
+        // vipButton.setBackground(Color.decode("#232529"));
+        // vipButton.setForeground(Color.WHITE);
+        // vipButton.setLayout(null);
+        // vipButton.setFocusPainted(false);
+        // vipButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        // mainPanel.add(vipButton);
+        
+        // JButton adminButton = new JButton("A");
+        // adminButton.setFont(new Font("Inter",Font.PLAIN, 15));
+        // adminButton.setBounds(215,80,65,50);
+        // adminButton.setBackground(Color.decode("#232529"));
+        // adminButton.setForeground(Color.WHITE);
+        // adminButton.setLayout(null);
+        // adminButton.setFocusPainted(false);
+        // adminButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        // mainPanel.add(adminButton);
         
         JLabel sessionLabel = new JLabel("SESSION LENGTH");
         sessionLabel.setFont(new Font("Inter",Font.BOLD, 10));
         sessionLabel.setForeground(Color.WHITE);
         sessionLabel.setBounds(20,125,100,100);
         mainPanel.add(sessionLabel);
-
+        
         JLabel column = new JLabel(":");
         column.setFont(new Font("Inter",Font.BOLD, 15));
         column.setForeground(Color.WHITE);
@@ -102,18 +160,18 @@ public class PCDescription {
         hourTimer.setBounds(120,165,30,20);
         hourTimer.setBorder(BorderFactory.createEmptyBorder());
         mainPanel.add(hourTimer);
-
-        JTextField secondTimer = new JTextField();
-        secondTimer.setBounds(165,165,30,20);
-        secondTimer.setBorder(BorderFactory.createEmptyBorder());
-        mainPanel.add(secondTimer);
-
+        
+        JTextField minuteTimer = new JTextField();
+        minuteTimer.setBounds(165,165,30,20);
+        minuteTimer.setBorder(BorderFactory.createEmptyBorder());
+        mainPanel.add(minuteTimer);
+        
         JLabel addOnLabel = new JLabel("ADD ON: ");
         addOnLabel.setFont(new Font("Inter",Font.BOLD, 10));
         addOnLabel.setForeground(Color.WHITE);
         addOnLabel.setBounds(20,160,100,100);
         mainPanel.add(addOnLabel);
-
+        
         JButton addOn1 = new JButton();
         addOn1.setBounds(20,225,65,80);
         addOn1.setBackground(Color.decode("#232529"));
@@ -156,25 +214,71 @@ public class PCDescription {
         subtotalLabel.setBounds(20,300,200,100);
         mainPanel.add(subtotalLabel);
 
-        JLabel cashLabel = new JLabel("P100");
+        JLabel cashLabel = new JLabel("P0.00");
         cashLabel.setFont(new Font("Inter",Font.BOLD, 35));
         cashLabel.setForeground(Color.WHITE);
         cashLabel.setBounds(110,345,200,100);
         mainPanel.add(cashLabel);
+
+        addAction(startButton, hourTimer, minuteTimer, cashLabel, pc);
         
-        return mainPanel;
+                return mainPanel;
+            }
 
+    public static void extendTime(JButton btn, JLabel label, int pc){
+        btn.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+              LinkedList data = Data.getData();
+              String sessionLength = "" + (Integer.parseInt(data.get(pc-1)[2]) + 30);
+              String toPay = "" + (Integer.parseInt(data.get(pc-1)[3]) + 10);
+    
+              label.setText("<html><p style='font-size: 25px; text-align: center;'> PC "+ pc + "<br/><br/>Time:" + sessionLength + "mins<br/>Total: P" +toPay+"</p></html>");
+
+              Data.updateSession(pc, sessionLength, toPay);
+            }
+        });
     }
 
-    public static void startSession(String text){
+    public static void addAction(JButton btn, int pc){
+        btn.addActionListener(new ActionListener() {
 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Data.endSession(pc);
+                PageControl.showDashboard(-1);
+            }
+            
+        });
     }
+        
+    public static void addAction(JButton btn, JTextField hourTimer,JTextField minuteTimer,JLabel cashLabel, int pc){
+            btn.addActionListener(new ActionListener() {
 
-    public static void viewSession(String pcNumber){
-        mainLabel.setText("Oten" + pcNumber + " ");
-    }
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    int toPay = 0;
+                    try{
+                        toPay = (int) Math.ceil((Integer.parseInt(minuteTimer.getText()) + (Integer.parseInt(hourTimer.getText())*60))* 0.33);
+                    }
+                    catch(Exception lolz){
+                        return;
+                    }
 
-    public static void outOfOrder(){
-        mainLabel.setText("OutOfOrder");
-    }
+
+                    if(btn.getText().equals("START SESSION")){
+                        int sessionLength = (Integer.parseInt(hourTimer.getText()) * 60) + Integer.parseInt(minuteTimer.getText()); 
+
+                        Data.startSession(pc, sessionLength, toPay);
+                        
+                        PageControl.showDashboard(-1);
+                    }
+
+                cashLabel.setText("" + toPay);
+                btn.setText("START SESSION");
+            }
+            
+        });
+    }  
 }

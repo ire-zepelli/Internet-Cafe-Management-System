@@ -15,11 +15,11 @@ public class Dashboard {
     private JPanel mainPanel, hr, content;
     private JLabel storeName;
 
-    public Dashboard() {
-        initialize();
+    public Dashboard(int pcNumber) {
+        initialize(pcNumber);
     }
 
-    public void initialize() {
+    public void initialize(int pcNumber) {
         mainPanel = new JPanel();
         content = new JPanel();
         storeName = Create_Component.Label(35, 20, 500, 30, "Armonia Internet Cafe", "Arial", Font.BOLD, 25, 36, 37, 42, 255, 255, 255);
@@ -38,7 +38,7 @@ public class Dashboard {
         content.add(storeName);
         content.add(PcList.getPcList());
         content.add(Labels.getLabels());
-        content.add(PCDescription.getPCDescription());
+        content.add(PCDescription.getPCDescription(pcNumber));
         mainPanel.add(content);
         mainPanel.add(Header.getHeader());
         mainPanel.add(hr);

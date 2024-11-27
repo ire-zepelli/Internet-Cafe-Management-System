@@ -87,7 +87,7 @@ public class Auth {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(ControlAccess.Authenticate(userField.getText(), String.valueOf(passwordField.getPassword()))){
-                    PageControl.showDashboard();
+                    PageControl.showDashboard(-1);
                 }
             }
         });
