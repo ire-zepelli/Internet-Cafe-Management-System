@@ -3,6 +3,7 @@ package dashboard.pc_list;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import create_component.Create_Component;
 import dashboard.pc_description.PCDescription;
 
 import java.awt.*;
@@ -29,6 +30,7 @@ public class PcList {
 
         JButton[] pcPanels = new JButton[25];
         JLabel[] pcNumber = new JLabel[25];
+        JLabel[] pcStatus = new JLabel[25];
 
         panelWidth = (mainPanel.getWidth() - (horizontalGap * (totalCols + 1))) / totalCols;
         panelHeight = (mainPanel.getHeight() - (verticalGap * (totalRows + 1))) / totalRows;
@@ -39,24 +41,43 @@ public class PcList {
             xPos = horizontalGap + col * (panelWidth + horizontalGap);
             yPos = verticalGap + row * (panelHeight + verticalGap);
 
+
+            
             pcPanels[i] = new JButton();
             pcPanels[i].setBackground(Color.decode("#232529"));
             pcPanels[i].setBounds(xPos, yPos, panelWidth, panelHeight);
             pcPanels[i].setLayout(null);
 
-            addAction(pcPanels[i], i+1);
+            String status = "", statusIcon = "";
+            
+            if(i < 26) status = "maintenance";
+            if(i < 16) status = "out-of-time";
+            if(i < 11) status = "in-session";
+            if(i < 6) status = "available";
+
+
+            if(status.equals("available")) statusIcon = "<html><span style='color: #00FF00; font-size: 14px;'>•</span></html>";
+            if(status.equals("in-session")) statusIcon = "<html><span style='color: yellow; font-size: 14px;'>•</span></html>";
+            if(status.equals("out-of-time")) statusIcon = "<html><span style='color: red; font-size: 14px;'>•</span></html>";
+            if(status.equals("maintenance")) statusIcon = "<html><span style='color: #FF00DD; font-size: 14px;'>•</span></html>";
+
+
+            pcStatus[i] = new JLabel(statusIcon);
+            pcStatus[i].setBounds(72,0, 15,15);
+
+            addAction(pcPanels[i], i+1, status);
 
             pcNumber[i] = new JLabel();
-            pcNumber[i].setBounds(29,11,30,30);
+            pcNumber[i].setBounds(31,11,25,30);
             pcNumber[i].setForeground(Color.decode("#A62122"));
-            pcNumber[i].setFont(new Font("Comic Sans", Font.BOLD, 25));
+            pcNumber[i].setFont(new Font("Comic Sans", Font.BOLD, 18));
+            pcNumber[i].setText(""+(i+1));
 
-            if(i > 8) pcNumber[i].setText((i+1)+"");
-            else pcNumber[i].setText(" "+(i+1));
-
+            pcNumber[i].setHorizontalAlignment(0);
             pcPanels[i].add(pcNumber[i]);
 
-            JPanel imagePanel = createPCPanel("public/red-pc-icon.png", 0, 0, panelWidth, panelHeight);
+            JPanel imagePanel = Create_Component.ImagePanel("public/red-pc-icon.png", 21,10, 45,45);
+            pcPanels[i].add(pcStatus[i]);
             pcPanels[i].add(imagePanel);
 
             pcPanels[i].setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -68,42 +89,22 @@ public class PcList {
         return mainPanel;
     }
 
-    public static void addAction(JButton btn, int pcNumber){
+    public static void addAction(JButton btn, int pcNumber, String status){
         btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                PCDescription.updateDescription("PC " + pcNumber);
+                switch (status) {
+                    case "available":
+                      PCDescription.startSession("PC " + pcNumber);     
+                        break;
+                    case "maintenance":
+                      PCDescription.outOfOrder();
+                              break;
+                    default:
+                        PCDescription.viewSession(pcNumber + "");
+                        break;
+                }
             }
         });
-    }
-
-    public static JPanel createPCPanel(String imagePath, int x, int y, int w, int h) {
-        JPanel panel = new JPanel() {
-            Image image;
-
-            {
-                try {
-                    image = ImageIO.read(new File(imagePath));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            protected void paintComponent(Graphics graphics) {
-                super.paintComponent(graphics);
-                if (image != null) {
-                    int imgWidth = getWidth() * 7 / 10;
-                    int imgHeight = getHeight() * 7 / 10;
-                    int imgX = (getWidth() - imgWidth) / 2;
-                    int imgY = (getHeight() - imgHeight) / 2;
-                    graphics.drawImage(image, imgX, imgY, imgWidth, imgHeight, this);
-                }
-            }
-        };
-
-        panel.setBounds(x, y, w, h);
-        panel.setOpaque(false);
-        return panel;
     }
 }

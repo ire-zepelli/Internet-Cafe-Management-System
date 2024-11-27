@@ -23,7 +23,7 @@ public class Labels {
         outOfTimeLabel = createLabel(0, 110, 180, 30, text);
         mainPanel.add(outOfTimeLabel);
 
-        text = "<html><div style='text-align: center;'><span style='color: #FFC0CB; font-size: 14px;'>•</span> MAINTENANCE</div></html>";
+        text = "<html><div style='text-align: center;'><span style='color: #FF00DD; font-size: 14px;'>•</span> MAINTENANCE</div></html>";
         maintenanceLabel = createLabel(0, 125, 180, 30, text);
         mainPanel.add(maintenanceLabel);
 
