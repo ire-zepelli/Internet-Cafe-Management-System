@@ -5,7 +5,6 @@ import javax.swing.*;
 import auth.Auth;
 import dashboard.Dashboard;
 import data.Data;
-import header.Header;
 
 import java.awt.*;
 
@@ -35,6 +34,7 @@ public class PageControl {
         frame.add(panelCont);
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
+
     }
 
     public static void showAuth(){

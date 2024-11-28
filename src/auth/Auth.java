@@ -14,7 +14,7 @@ public class Auth {
     private JLabel titleText;
     private TextField userField;
     private JPasswordField passwordField;
-    private JButton login_btn;
+    public JButton login_btn;
 
     public Auth(){
         initialize();
@@ -62,13 +62,12 @@ public class Auth {
 
         inputPanel_2.setBounds(290,450, 350, 30);
         inputPanel_2.setLayout(null);
-        
 
         userField.setBounds(0, 0, 350, 30);
         userField.setFont(new Font(null, Font.PLAIN, 25));
-        
+
         passwordField.setBounds(0, 0, 350, 30);
-        passwordField.setFont(new Font(null, Font.PLAIN, 25));
+        passwordField.setFont(new Font(null, Font.PLAIN, 25));        
         
         titleText.setForeground(new Color(255, 255, 255));
         titleText.setBounds(255 , 250, 500, 150);
@@ -82,6 +81,7 @@ public class Auth {
         authSection_1.add(inputPanel_1);
         authSection_1.add(inputPanel_2);
         authSection_1.add(login_btn);
+        SwingUtilities.invokeLater(() -> mainPanel.getRootPane().setDefaultButton(login_btn));
         authSection_1.add(logo);
 
         

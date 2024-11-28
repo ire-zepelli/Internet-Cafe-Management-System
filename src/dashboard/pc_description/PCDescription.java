@@ -47,14 +47,14 @@ public class PCDescription {
         startButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         if (sessionType.equals("in-session")) {
-            JLabel mainLabel = new JLabel("<html><p style='font-size: 25px; text-align: center;'> PC " + pc + "<br/><br/>Time:" + sessionLength + "mins<br/>Total:P" + toPay + "</p></html>");
+            JLabel mainLabel = new JLabel("<html><p style='font-size: 25px; text-align: center;'> PC " + pc + "<br/><br/>Time: " + sessionLength + "mins<br/>Total: ₱" + toPay + "</p></html>");
 
             mainPanel.setLayout(null);
             mainPanel.setBounds(585, 30, 300, 500);
             mainPanel.setBackground(new Color(83, 88, 94));
 
             mainLabel.setFont(new Font("Inter", Font.BOLD, 55));
-            mainLabel.setBounds(50, 20, 300, 160);
+            mainLabel.setBounds(25, 20, 300, 160);
             mainLabel.setForeground(Color.WHITE);
             mainPanel.add(mainLabel);
 
@@ -222,10 +222,10 @@ public class PCDescription {
         subtotalLabel.setBounds(20, 300, 200, 100);
         mainPanel.add(subtotalLabel);
 
-        JLabel cashLabel = new JLabel("P0.00");
+        JLabel cashLabel = new JLabel("₱0.00");
         cashLabel.setFont(new Font("Inter", Font.BOLD, 35));
         cashLabel.setForeground(Color.WHITE);
-        cashLabel.setBounds(110, 345, 200, 100);
+        cashLabel.setBounds(100, 345, 200, 100);
         mainPanel.add(cashLabel);
 
         addAction(startButton, hourTimer, minuteTimer, cashLabel, pc);
@@ -242,8 +242,7 @@ public class PCDescription {
                 String sessionLength = "" + (Integer.parseInt(data.get(pc - 1)[2]) + 30);
                 String toPay = "" + (Integer.parseInt(data.get(pc - 1)[3]) + 10);
 
-                label.setText("<html><p style='font-size: 25px; text-align: center;'> PC " + pc + "<br/><br/>Time:" + sessionLength + "mins<br/>Total: P" + toPay + "</p></html>");
-
+                label.setText("<html><p style='font-size: 25px; text-align: center;'> PC " + pc + "<br/><br/>Time: " + sessionLength + " mins<br/>Total: ₱" + toPay + "</p></html>");
                 Data.updateSession(pc, sessionLength, toPay);
             }
         });
@@ -282,7 +281,8 @@ public class PCDescription {
                     PageControl.showDashboard(-1);
                 }
 
-                cashLabel.setText("" + toPay);
+                cashLabel.setText("₱" + toPay + ".00");
+                cashLabel.setBounds(85, 345, 200, 100);
                 btn.setText("START SESSION");
             }
 
