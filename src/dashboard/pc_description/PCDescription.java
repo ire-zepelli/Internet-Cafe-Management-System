@@ -8,68 +8,67 @@ import pages.PageControl;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalTime;
 import data.*;
 
 public class PCDescription {
     static JPanel mainPanel;
 
-    public static JPanel getPCDescription(int pc){
+    public static JPanel getPCDescription(int pc) {
         mainPanel = new JPanel();
-        if(pc == -1){
+        if (pc == -1) {
             JLabel mainLabel = new JLabel("<html><div style='text-align: center;'>Select <br/> a PC <br/> to <br /> preview: </div></html>");
-            
+
             mainPanel.setLayout(null);
             mainPanel.setBounds(585, 30, 300, 500);
             mainPanel.setBackground(new Color(83, 88, 94));
-            
+
             mainLabel.setFont(new Font("Inter", Font.BOLD, 55));
-            mainLabel.setBounds(30,35,300,400);
+            mainLabel.setBounds(30, 35, 300, 400);
             mainLabel.setForeground(Color.WHITE);
             mainPanel.add(mainLabel);
 
             return mainPanel;
-        }   
+        }
 
         LinkedList data = Data.getData();
-        String sessionType = data.get(pc-1)[1];
-        String sessionLength = data.get(pc-1)[2];
-        String toPay = data.get(pc-1)[3];
+        String sessionType = data.get(pc - 1)[1];
+        String sessionLength = data.get(pc - 1)[2];
+        String toPay = data.get(pc - 1)[3];
 
         JButton startButton = new JButton("CALCULATE PAY");
 
-        startButton.setBounds(0,440,300,60);
+        startButton.setBounds(0, 440, 300, 60);
         startButton.setBackground(Color.decode("#A62122"));
         startButton.setForeground(Color.WHITE);
-        startButton.setFont(new Font("Inter",Font.BOLD, 20));
+        startButton.setFont(new Font("Inter", Font.BOLD, 20));
         startButton.setBorder(BorderFactory.createEmptyBorder());
         startButton.setLayout(null);
         startButton.setFocusPainted(false);
         startButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        if(sessionType.equals("in-session")){
-            JLabel mainLabel = new JLabel("<html><p style='font-size: 25px; text-align: center;'> PC "+ pc + "<br/><br/>Time:" + sessionLength + "mins<br/>Total:P" +toPay+"</p></html>");
-            
+        if (sessionType.equals("in-session")) {
+            JLabel mainLabel = new JLabel("<html><p style='font-size: 25px; text-align: center;'> PC " + pc + "<br/><br/>Time:" + sessionLength + "mins<br/>Total:P" + toPay + "</p></html>");
+
             mainPanel.setLayout(null);
             mainPanel.setBounds(585, 30, 300, 500);
-            mainPanel.setBackground(new Color(83, 88, 94)); 
-            
+            mainPanel.setBackground(new Color(83, 88, 94));
+
             mainLabel.setFont(new Font("Inter", Font.BOLD, 55));
-            mainLabel.setBounds(50,20,300,160);
+            mainLabel.setBounds(50, 20, 300, 160);
             mainLabel.setForeground(Color.WHITE);
             mainPanel.add(mainLabel);
 
-            startButton.setText("End Session");
+            startButton.setText("END SESSION");
             addAction(startButton, pc);
 
-            JLabel extendLabel= new JLabel("EXTEND TIME: ");
-            extendLabel.setFont(new Font("Inter",Font.BOLD, 10));
+            JLabel extendLabel = new JLabel("EXTEND TIME: ");
+            extendLabel.setFont(new Font("Inter", Font.BOLD, 10));
             extendLabel.setForeground(Color.WHITE);
-            extendLabel.setBounds(20,160,100,100);
+            extendLabel.setBounds(20, 160, 100, 100);
             mainPanel.add(extendLabel);
-            
+
             JButton extend30 = new JButton("+30");
-            extend30.setBounds(20,225,65,80);
+            extend30.setBounds(20, 225, 65, 80);
             extend30.setBackground(Color.decode("#232529"));
             extend30.setForeground(Color.WHITE);
             extend30.setLayout(null);
@@ -83,29 +82,29 @@ public class PCDescription {
 
             return mainPanel;
         }
-            
-            mainPanel.setLayout(null);
-            mainPanel.setBounds(585, 30, 300, 500);
-            mainPanel.setBackground(new Color(83, 88, 94));
+
+        mainPanel.setLayout(null);
+        mainPanel.setBounds(585, 30, 300, 500);
+        mainPanel.setBackground(new Color(83, 88, 94));
 
 
         mainPanel.add(startButton);
-        
-        JLabel pcNumber = new JLabel("PC "+ pc);
-        pcNumber.setFont(new Font("Inter",Font.BOLD, 18));
+
+        JLabel pcNumber = new JLabel("PC " + pc);
+        pcNumber.setFont(new Font("Inter", Font.BOLD, 18));
         pcNumber.setForeground(Color.WHITE);
-        pcNumber.setBounds(130,0,55,50);
+        pcNumber.setBounds(130, 0, 55, 50);
         mainPanel.add(pcNumber);
-        
+
         JLabel categoryLabel = new JLabel("CATEGORY");
-        categoryLabel.setFont(new Font("Inter",Font.BOLD, 10));
+        categoryLabel.setFont(new Font("Inter", Font.BOLD, 10));
         categoryLabel.setForeground(Color.WHITE);
-        categoryLabel.setBounds(20,15,100,100);
+        categoryLabel.setBounds(20, 15, 100, 100);
         mainPanel.add(categoryLabel);
-        
+
         JButton guestButton = new JButton("G");
-        guestButton.setFont(new Font("Inter",Font.PLAIN, 15));
-        guestButton.setBounds(20,80,65,50);
+        guestButton.setFont(new Font("Inter", Font.PLAIN, 15));
+        guestButton.setBounds(20, 80, 65, 50);
         guestButton.setBackground(Color.decode("#232529"));
         guestButton.setForeground(Color.WHITE);
         guestButton.setLayout(null);
@@ -113,135 +112,144 @@ public class PCDescription {
         guestButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         guestButton.setEnabled(false);
         mainPanel.add(guestButton);
-        
-        // JButton studentButton = new JButton("S");
-        // studentButton.setFont(new Font("Inter",Font.PLAIN, 15));
-        // studentButton.setBounds(85,80,65,50);
-        // studentButton.setBackground(Color.decode("#232529"));
-        // studentButton.setForeground(Color.WHITE);
-        // studentButton.setLayout(null);
-        // studentButton.setFocusPainted(false);
-        // studentButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        // mainPanel.add(studentButton);
-        
-        // JButton vipButton = new JButton("VIP");
-        // vipButton.setFont(new Font("Inter",Font.PLAIN, 15));
-        // vipButton.setBounds(150,80,65,50);
-        // vipButton.setBackground(Color.decode("#232529"));
-        // vipButton.setForeground(Color.WHITE);
-        // vipButton.setLayout(null);
-        // vipButton.setFocusPainted(false);
-        // vipButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        // mainPanel.add(vipButton);
-        
-        // JButton adminButton = new JButton("A");
-        // adminButton.setFont(new Font("Inter",Font.PLAIN, 15));
-        // adminButton.setBounds(215,80,65,50);
-        // adminButton.setBackground(Color.decode("#232529"));
-        // adminButton.setForeground(Color.WHITE);
-        // adminButton.setLayout(null);
-        // adminButton.setFocusPainted(false);
-        // adminButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        // mainPanel.add(adminButton);
-        
+
+        JButton studentButton = new JButton("S");
+        studentButton.setFont(new Font("Inter",Font.PLAIN, 15));
+        studentButton.setBounds(85,80,65,50);
+        studentButton.setBackground(Color.decode("#232529"));
+        studentButton.setForeground(Color.WHITE);
+        studentButton.setLayout(null);
+        studentButton.setFocusPainted(false);
+        studentButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        mainPanel.add(studentButton);
+
+        JButton vipButton = new JButton("VIP");
+        vipButton.setFont(new Font("Inter",Font.PLAIN, 15));
+        vipButton.setBounds(150,80,65,50);
+        vipButton.setBackground(Color.decode("#232529"));
+        vipButton.setForeground(Color.WHITE);
+        vipButton.setLayout(null);
+        vipButton.setFocusPainted(false);
+        vipButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        mainPanel.add(vipButton);
+
+        JButton adminButton = new JButton("A");
+        adminButton.setFont(new Font("Inter",Font.PLAIN, 15));
+        adminButton.setBounds(215,80,65,50);
+        adminButton.setBackground(Color.decode("#232529"));
+        adminButton.setForeground(Color.WHITE);
+        adminButton.setLayout(null);
+        adminButton.setFocusPainted(false);
+        adminButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        mainPanel.add(adminButton);
+
         JLabel sessionLabel = new JLabel("SESSION LENGTH");
-        sessionLabel.setFont(new Font("Inter",Font.BOLD, 10));
+        sessionLabel.setFont(new Font("Inter", Font.BOLD, 10));
         sessionLabel.setForeground(Color.WHITE);
-        sessionLabel.setBounds(20,125,100,100);
+        sessionLabel.setBounds(20, 125, 100, 100);
         mainPanel.add(sessionLabel);
-        
+
         JLabel column = new JLabel(":");
-        column.setFont(new Font("Inter",Font.BOLD, 15));
+        column.setFont(new Font("Inter", Font.BOLD, 15));
         column.setForeground(Color.WHITE);
-        column.setBounds(155,123,100,100);
+        column.setBounds(155, 123, 100, 100);
         mainPanel.add(column);
-        
+
         JTextField hourTimer = new JTextField();
-        hourTimer.setBounds(120,165,30,20);
+        hourTimer.setBounds(120, 165, 30, 20);
         hourTimer.setBorder(BorderFactory.createEmptyBorder());
         mainPanel.add(hourTimer);
-        
+
         JTextField minuteTimer = new JTextField();
-        minuteTimer.setBounds(165,165,30,20);
+        minuteTimer.setBounds(165, 165, 30, 20);
         minuteTimer.setBorder(BorderFactory.createEmptyBorder());
         mainPanel.add(minuteTimer);
-        
+
         JLabel addOnLabel = new JLabel("ADD ON: ");
-        addOnLabel.setFont(new Font("Inter",Font.BOLD, 10));
+        addOnLabel.setFont(new Font("Inter", Font.BOLD, 10));
         addOnLabel.setForeground(Color.WHITE);
-        addOnLabel.setBounds(20,160,100,100);
+        addOnLabel.setBounds(20, 160, 100, 100);
         mainPanel.add(addOnLabel);
-        
-        JButton addOn1 = new JButton();
-        addOn1.setBounds(20,225,65,80);
+
+        JButton addOn1 = new JButton("Canton");
+        addOn1.setBounds(20, 225, 65, 80);
         addOn1.setBackground(Color.decode("#232529"));
+        addOn1.setFont(new Font("Inter", Font.BOLD, 6));
         addOn1.setForeground(Color.WHITE);
         addOn1.setLayout(null);
         addOn1.setFocusPainted(false);
         addOn1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         mainPanel.add(addOn1);
 
-        JButton addOn2 = new JButton();
-        addOn2.setBounds(85,225,65,80);
+        JButton addOn2 = new JButton("Soda");
+        addOn2.setBounds(85, 225, 65, 80);
         addOn2.setBackground(Color.decode("#232529"));
         addOn2.setForeground(Color.WHITE);
+        addOn2.setFont(new Font("Inter", Font.BOLD, 6));
         addOn2.setLayout(null);
         addOn2.setFocusPainted(false);
         addOn2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         mainPanel.add(addOn2);
 
-        JButton addOn3 = new JButton();
-        addOn3.setBounds(150,225,65,80);
+        JButton addOn3 = new JButton("Water");
+        addOn3.setBounds(150, 225, 65, 80);
         addOn3.setBackground(Color.decode("#232529"));
         addOn3.setForeground(Color.WHITE);
+        addOn3.setFont(new Font("Inter", Font.BOLD, 6));
         addOn3.setLayout(null);
         addOn3.setFocusPainted(false);
         addOn3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         mainPanel.add(addOn3);
 
-        JButton addOn4 = new JButton();
-        addOn4.setBounds(215,225,65,80);
+        JButton addOn4 = new JButton("Coffee");
+        addOn4.setBounds(215, 225, 65, 80);
         addOn4.setBackground(Color.decode("#232529"));
+        addOn4.setFont(new Font("Inter", Font.BOLD, 6));
         addOn4.setForeground(Color.WHITE);
         addOn4.setLayout(null);
         addOn4.setFocusPainted(false);
         addOn4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         mainPanel.add(addOn4);
 
+        addOn1.setEnabled(false);
+        addOn2.setEnabled(false);
+        addOn3.setEnabled(false);
+        addOn4.setEnabled(false);
+
         JLabel subtotalLabel = new JLabel("Subtotal: ");
-        subtotalLabel.setFont(new Font("Inter",Font.BOLD, 25));
+        subtotalLabel.setFont(new Font("Inter", Font.BOLD, 25));
         subtotalLabel.setForeground(Color.WHITE);
-        subtotalLabel.setBounds(20,300,200,100);
+        subtotalLabel.setBounds(20, 300, 200, 100);
         mainPanel.add(subtotalLabel);
 
         JLabel cashLabel = new JLabel("P0.00");
-        cashLabel.setFont(new Font("Inter",Font.BOLD, 35));
+        cashLabel.setFont(new Font("Inter", Font.BOLD, 35));
         cashLabel.setForeground(Color.WHITE);
-        cashLabel.setBounds(110,345,200,100);
+        cashLabel.setBounds(110, 345, 200, 100);
         mainPanel.add(cashLabel);
 
         addAction(startButton, hourTimer, minuteTimer, cashLabel, pc);
-        
-                return mainPanel;
-            }
 
-    public static void extendTime(JButton btn, JLabel label, int pc){
+        return mainPanel;
+    }
+
+    public static void extendTime(JButton btn, JLabel label, int pc) {
         btn.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-              LinkedList data = Data.getData();
-              String sessionLength = "" + (Integer.parseInt(data.get(pc-1)[2]) + 30);
-              String toPay = "" + (Integer.parseInt(data.get(pc-1)[3]) + 10);
-    
-              label.setText("<html><p style='font-size: 25px; text-align: center;'> PC "+ pc + "<br/><br/>Time:" + sessionLength + "mins<br/>Total: P" +toPay+"</p></html>");
+                LinkedList data = Data.getData();
+                String sessionLength = "" + (Integer.parseInt(data.get(pc - 1)[2]) + 30);
+                String toPay = "" + (Integer.parseInt(data.get(pc - 1)[3]) + 10);
 
-              Data.updateSession(pc, sessionLength, toPay);
+                label.setText("<html><p style='font-size: 25px; text-align: center;'> PC " + pc + "<br/><br/>Time:" + sessionLength + "mins<br/>Total: P" + toPay + "</p></html>");
+
+                Data.updateSession(pc, sessionLength, toPay);
             }
         });
     }
 
-    public static void addAction(JButton btn, int pc){
+    public static void addAction(JButton btn, int pc) {
         btn.addActionListener(new ActionListener() {
 
             @Override
@@ -249,36 +257,35 @@ public class PCDescription {
                 Data.endSession(pc);
                 PageControl.showDashboard(-1);
             }
-            
+
         });
     }
-        
-    public static void addAction(JButton btn, JTextField hourTimer,JTextField minuteTimer,JLabel cashLabel, int pc){
-            btn.addActionListener(new ActionListener() {
 
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    int toPay = 0;
-                    try{
-                        toPay = (int) Math.ceil((Integer.parseInt(minuteTimer.getText()) + (Integer.parseInt(hourTimer.getText())*60))* 0.33);
-                    }
-                    catch(Exception lolz){
-                        return;
-                    }
+    public static void addAction(JButton btn, JTextField hourTimer, JTextField minuteTimer, JLabel cashLabel, int pc) {
+        btn.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int toPay = 0;
+                try {
+                    toPay = (int) Math.ceil((Integer.parseInt(minuteTimer.getText()) + (Integer.parseInt(hourTimer.getText()) * 60)) * 0.33);
+                } catch (Exception lolz) {
+                    return;
+                }
 
 
-                    if(btn.getText().equals("START SESSION")){
-                        int sessionLength = (Integer.parseInt(hourTimer.getText()) * 60) + Integer.parseInt(minuteTimer.getText()); 
+                if (btn.getText().equals("START SESSION")) {
+                    int sessionLength = (Integer.parseInt(hourTimer.getText()) * 60) + Integer.parseInt(minuteTimer.getText());
 
-                        Data.startSession(pc, sessionLength, toPay);
-                        
-                        PageControl.showDashboard(-1);
-                    }
+                    Data.startSession(pc, sessionLength, toPay);
+
+                    PageControl.showDashboard(-1);
+                }
 
                 cashLabel.setText("" + toPay);
                 btn.setText("START SESSION");
             }
-            
+
         });
-    }  
+    }
 }
