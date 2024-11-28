@@ -57,10 +57,13 @@ public class Auth {
         login_btn.setFont(new Font(null, Font.PLAIN, 20));
         login_btn.setBackground(Color.decode("#A62122"));
         login_btn.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+        login_btn.setFocusPainted(false);
+        login_btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         inputPanel_2.setBounds(290,450, 350, 30);
         inputPanel_2.setLayout(null);
         
+
         userField.setBounds(0, 0, 350, 30);
         userField.setFont(new Font(null, Font.PLAIN, 25));
         
