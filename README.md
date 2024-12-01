@@ -13,3 +13,7 @@ The **Internet Cafe Management System** is a Java-based application designed to 
 ## Features
 > Admin Management - Admin can manage user accounts and monitor sessions. <br/>
 > Billing - Calculates the cost based on the time spent using the computer.
+
+## Contributors
+    - Benedict Avenido aka "ire-zepelli"
+    - Aaron Cumahig aka "eyronc"
