@@ -21,6 +21,11 @@ public class PC implements Payable {
      public void updateStatus(String newStatus) {
         session.updateStatus(newStatus);
     }
+    
+    public void updateSession(int length){
+        session.setSessionLength(length);
+        calculateAmountToPay();
+    }
 
     public int calculateAmountToPay() {
         return session.calculateAmount();

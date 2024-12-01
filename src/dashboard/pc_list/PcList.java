@@ -13,8 +13,7 @@ import data.LinkedList;
 
 public class PcList {
 
-    // Assuming you have a PC class that implements Payable and handles sessions
-    private static PC[] pcs = new PC[25]; // Array of PCs
+    private static PC[] pcs = new PC[25];
 
     public static JPanel getPcList() {
 
@@ -61,7 +60,10 @@ public class PcList {
             if (status.equals("available")) statusIcon = "<html><span style='color: #00FF00; font-size: 14px;'>•</span></html>";
             else if (status.equals("in-session")) statusIcon = "<html><span style='color: yellow; font-size: 14px;'>•</span></html>";
             else if (status.equals("out-of-time")) statusIcon = "<html><span style='color: red; font-size: 14px;'>•</span></html>";
-            else if (status.equals("maintenance")) statusIcon = "<html><span style='color: #FF00DD; font-size: 14px;'>•</span></html>";
+            else if (status.equals("maintenance")) {
+                statusIcon = "<html><span style='color: #FF00DD; font-size: 14px;'>•</span></html>";
+                pcPanels[i].setEnabled(false);
+            }
 
             pcStatus[i] = new JLabel(statusIcon);
             pcStatus[i].setBounds(72, 0, 15, 15);
