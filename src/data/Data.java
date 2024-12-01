@@ -26,7 +26,7 @@ public class Data {
     data.set(pc-1, new String[]{pc+"", "available", "", ""});
   }
 
-  public static void updateSession(int pc, String sessionLength, String toPay){
-    data.set(pc-1, new String[]{pc+"", "in-session", sessionLength, toPay+""});
+  public static void updateSession(int pc, int sessionLength, int toPay){
+    data.set(pc-1, new String[]{pc+"", "in-session", sessionLength + "", toPay+""});
   }
 }

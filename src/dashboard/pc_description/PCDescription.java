@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import data.*;
+import dashboard.pc_list.*;
 
 public class PCDescription {
     static JPanel mainPanel;
@@ -31,7 +32,7 @@ public class PCDescription {
         }
 
         LinkedList data = Data.getData();
-        String sessionType = data.get(pc - 1)[1];
+        String sessionType = PcList.getPC(pc-1).getSession().getStatus();
         String sessionLength = data.get(pc - 1)[2];
         String toPay = data.get(pc - 1)[3];
 
@@ -238,11 +239,14 @@ public class PCDescription {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                LinkedList data = Data.getData();
-                String sessionLength = "" + (Integer.parseInt(data.get(pc - 1)[2]) + 30);
-                String toPay = "" + (Integer.parseInt(data.get(pc - 1)[3]) + 10);
+                int sessionLength = PcList.getPC(pc-1).getSession().getSessionLength() + 30;
+                int toPay = PcList.getPC(pc-1).getSession().getAmountToPay() + 10;
 
                 label.setText("<html><p style='font-size: 25px; text-align: center;'> PC " + pc + "<br/><br/>Time: " + sessionLength + " mins<br/>Total: ₱" + toPay + "</p></html>");
+
+                PcList.getPC(pc-1).getSession().setSessionLength(sessionLength);
+                PcList.getPC(pc-1).getSession().calculateAmount();
+
                 Data.updateSession(pc, sessionLength, toPay);
             }
         });
@@ -253,7 +257,7 @@ public class PCDescription {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                Data.endSession(pc);
+                PcList.getPC(pc-1).endSession(pc);
                 PageControl.showDashboard(-1);
             }
 
@@ -266,20 +270,25 @@ public class PCDescription {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int toPay = 0;
-                try {
-                    toPay = (int) Math.ceil((Integer.parseInt(minuteTimer.getText()) + (Integer.parseInt(hourTimer.getText()) * 60)) * 0.33);
-                } catch (Exception lolz) {
-                    return;
-                }
+            
+                int sessionLength = (Integer.parseInt(hourTimer.getText()) * 60) + Integer.parseInt(minuteTimer.getText());
 
 
                 if (btn.getText().equals("START SESSION")) {
-                    int sessionLength = (Integer.parseInt(hourTimer.getText()) * 60) + Integer.parseInt(minuteTimer.getText());
+
+                    PcList.getPC(pc-1).startSession(sessionLength, pc);
+                    PcList.getPC(pc-1).calculateAmountToPay();
+
+                    toPay = PcList.getPC(pc-1).getSession().getAmountToPay();
 
                     Data.startSession(pc, sessionLength, toPay);
 
                     PageControl.showDashboard(-1);
                 }
+                PcList.getPC(pc-1).getSession().setSessionLength(sessionLength);
+                PcList.getPC(pc-1).calculateAmountToPay();
+
+                toPay = PcList.getPC(pc-1).getSession().getAmountToPay();
 
                 cashLabel.setText("₱" + toPay + ".00");
                 cashLabel.setBounds(85, 345, 200, 100);
