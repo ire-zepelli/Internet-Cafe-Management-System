@@ -13,7 +13,7 @@ public class PCSession extends Session{
 
    @Override
    public int calculateAmount(){
-        int toPay =(int) (getSessionLength() * 0.33);
+        int toPay = (int) Math.ceil(getSessionLength() * 0.33);
         setAmountToPay(toPay);
         return toPay;
    }

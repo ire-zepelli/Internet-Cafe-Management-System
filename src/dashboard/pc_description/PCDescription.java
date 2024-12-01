@@ -8,6 +8,7 @@ import pages.PageControl;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import data.*;
 import dashboard.pc_list.*;
 
@@ -35,6 +36,7 @@ public class PCDescription {
         String sessionType = PcList.getPC(pc-1).getSession().getStatus();
         String sessionLength = data.get(pc - 1)[2];
         String toPay = data.get(pc - 1)[3];
+        String endTime = data.get(pc-1)[4];
 
         JButton startButton = new JButton("CALCULATE PAY");
 
@@ -48,14 +50,14 @@ public class PCDescription {
         startButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         if (sessionType.equals("in-session")) {
-            JLabel mainLabel = new JLabel("<html><p style='font-size: 25px; text-align: center;'> PC " + pc + "<br/><br/>Time: " + sessionLength + "mins<br/>Total: ₱" + toPay + "</p></html>");
+            JLabel mainLabel = new JLabel("<html><p style='font-size: 25px; text-align: center;'> PC " + pc + "<br/><br/>Length: " + sessionLength + "mins<br/> End Time: "+ endTime  +"<br/>Total: ₱" + toPay + "</p></html>");
 
             mainPanel.setLayout(null);
             mainPanel.setBounds(585, 30, 300, 500);
             mainPanel.setBackground(new Color(83, 88, 94));
 
             mainLabel.setFont(new Font("Inter", Font.BOLD, 55));
-            mainLabel.setBounds(25, 20, 300, 160);
+            mainLabel.setBounds(25, 20, 300, 200);
             mainLabel.setForeground(Color.WHITE);
             mainPanel.add(mainLabel);
 
@@ -65,11 +67,11 @@ public class PCDescription {
             JLabel extendLabel = new JLabel("EXTEND TIME: ");
             extendLabel.setFont(new Font("Inter", Font.BOLD, 10));
             extendLabel.setForeground(Color.WHITE);
-            extendLabel.setBounds(20, 160, 100, 100);
+            extendLabel.setBounds(20, 200, 100, 100);
             mainPanel.add(extendLabel);
 
             JButton extend30 = new JButton("+30");
-            extend30.setBounds(20, 225, 65, 80);
+            extend30.setBounds(20, 275, 65, 80);
             extend30.setBackground(Color.decode("#232529"));
             extend30.setForeground(Color.WHITE);
             extend30.setLayout(null);
@@ -238,16 +240,16 @@ public class PCDescription {
         btn.addActionListener(new ActionListener() {
 
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)  {
                 int sessionLength = PcList.getPC(pc-1).getSession().getSessionLength() + 30;
                 int toPay = PcList.getPC(pc-1).getSession().getAmountToPay() + 10;
 
-                label.setText("<html><p style='font-size: 25px; text-align: center;'> PC " + pc + "<br/><br/>Time: " + sessionLength + " mins<br/>Total: ₱" + toPay + "</p></html>");
-
-                PcList.getPC(pc-1).getSession().setSessionLength(sessionLength);
-                PcList.getPC(pc-1).getSession().calculateAmount();
-
+                
+                PcList.getPC(pc-1).updateSession(sessionLength);
+                
                 Data.updateSession(pc, sessionLength, toPay);
+                
+                label.setText("<html><p style='font-size: 25px; text-align: center;'> PC " + pc + "<br/><br/>Length: " + sessionLength + "mins<br/> End Time: "+ Data.getData().get(pc-1)[4]  +"<br/>Total: ₱" + toPay + "</p></html>");
             }
         });
     }
