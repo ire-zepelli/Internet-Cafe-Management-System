@@ -2,16 +2,12 @@ package dashboard.pc_description;
 
 import javax.swing.*;
 
-import dashboard.Dashboard;
-import dashboard.pc_list.PCSession;
 import dashboard.pc_list.PcList;
 import pages.PageControl;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Locale;
-import java.util.TimerTask;
 
 public class PCDescription {
     static JLabel mainLabel = new JLabel("<html><div style='text-align: center;'>Select <br/> a PC <br/> to <br /> preview: </div></html>");
