@@ -20,8 +20,8 @@ public class ControlAccess {
                     String log = "User : " + username + "| Access Time: " + time + "\n";
 
                     try {
-                        FileWriter write = new FileWriter("history.txt");
-                        write.append(log);
+                        FileWriter write = new FileWriter("history.txt", true);
+                        write.write(log);
                         write.close();
                     } catch (Exception e) {
                         System.out.println("Something went wrong!");
