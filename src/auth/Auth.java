@@ -2,6 +2,8 @@ package auth;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+
 import javax.swing.*;
 import create_component.Create_Component;
 import pages.PageControl;
@@ -69,8 +71,12 @@ public class Auth {
         login_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(ControlAccess.Authenticate(userField.getText(), String.valueOf(passwordField.getPassword()))){
-                    PageControl.showDashboard();
+                try {
+                    if(ControlAccess.Authenticate(userField.getText(), String.valueOf(passwordField.getPassword()))){
+                        PageControl.showDashboard();
+                    }
+                } catch (FileNotFoundException e1) {
+                    System.out.println("Wrong Password!");
                 }
             }
         });

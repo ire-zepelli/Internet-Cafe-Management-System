@@ -4,7 +4,6 @@ import javax.swing.*;
 import create_component.Create_Component;
 import dashboard.pc_description.PCDescription;
 import dashboard.pc_list.PcList;
-import pages.PageControl;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
