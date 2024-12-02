@@ -1,6 +1,8 @@
 package pages;
 
 import javax.swing.*;
+
+import auth.Auth;
 import dashboard.Dashboard;
 import java.awt.*;
 
@@ -8,8 +10,8 @@ public class PageControl {
     JFrame frame = new JFrame("Armonia Internet Cafe");
     static JPanel panelCont = new JPanel();
     static CardLayout pages = new CardLayout();
-    static Dashboard dashboard = new Dashboard();
-
+    static Dashboard dashboard;
+    static Auth auth = new Auth();
 
     public PageControl(){
         initialize();
@@ -18,7 +20,7 @@ public class PageControl {
 
     public void initialize(){
         panelCont.setLayout(pages);
-        panelCont.add(dashboard.getPanel(), "dashboard");
+        panelCont.add(auth.getPanel(), "auth");
         
         frame.setIconImage(Toolkit.getDefaultToolkit().getImage("public/icon.png"));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

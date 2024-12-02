@@ -265,14 +265,38 @@ public class PCDescription {
             });
         }
     }
+    
+    public static void endSession(int pc){
+                PcList.getPC(pc).endSession(pc);
+                    mainPanel.removeAll();
+
+                    System.out.println("Ending session");
+                    
+                    mainLabel.setText("<html><div style='text-align: center;'>Select <br/> a PC <br/> to <br /> preview: </div></html>");
+                    PcList.getPCStatus(pc).setText("<html><span style='color: red; font-size: 14px;'>•</span></html>");
+                    
+                    Timer changeToGreen = new Timer(2000,new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            PcList.getPCStatus(pc).setText("<html><span style='color: #00FF00; font-size: 14px;'>•</span></html>");
+                            pcNumber.setText("");
+                        } 
+                    });
+
+                    changeToGreen.setRepeats(false);
+                    changeToGreen.start();
+                    
+                    mainPanel.add(mainLabel);   
+
+                    PageControl.showDashboard();      
+    }
 
     public static void endSession(JButton btn, int pc){
             for (ActionListener listener : btn.getActionListeners()) {
                 btn.removeActionListener(listener);
             }
-            
+
             btn.addActionListener(new ActionListener() {
-                
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     PcList.getPC(pc-1).endSession(pc-1);
