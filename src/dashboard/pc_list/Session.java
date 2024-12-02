@@ -1,9 +1,11 @@
 package dashboard.pc_list;
 
-import data.Data;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public abstract class Session {
     private int sessionLength;
+    private String startTime;
     private int amountToPay;
 
     public Session(int sessionLength) {
@@ -11,11 +13,21 @@ public abstract class Session {
     }
 
     public void startSession(int pc){
-        Data.startSession(pc, sessionLength, calculateAmount());
+        LocalTime lt = LocalTime.now();
+		DateTimeFormatter formatterLocalTime = DateTimeFormatter.ofPattern("HH:mm");
+		startTime = formatterLocalTime.format(lt);
+
+        System.out.println("Session has started...");
+        // Data.startSession(pc, sessionLength, calculateAmount());
+    }
+
+    public String getStartTime(){
+        return startTime;
     }
 
     public void endSession(int pc){
-        Data.endSession(pc);
+        System.out.println("Session end session");
+        // Data.endSession(pc);
     }
 
     public abstract int calculateAmount();

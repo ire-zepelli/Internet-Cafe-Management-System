@@ -12,14 +12,15 @@ import header.*;
 import sidebar.SideBar;
 
 public class Dashboard {
-    private JPanel mainPanel, hr, content;
+    private static JPanel mainPanel;
+    private JPanel hr, content;
     private JLabel storeName;
 
-    public Dashboard(int pcNumber) {
-        initialize(pcNumber);
+    public Dashboard() {
+        initialize();
     }
 
-    public void initialize(int pcNumber) {
+    public void initialize() {
         mainPanel = new JPanel();
         content = new JPanel();
         storeName = Create_Component.Label(35, 20, 500, 30, "Armonia Internet Cafe", "Arial", Font.BOLD, 25, 36, 37, 42, 255, 255, 255);
@@ -38,7 +39,7 @@ public class Dashboard {
         content.add(storeName);
         content.add(PcList.getPcList());
         content.add(Labels.getLabels());
-        content.add(PCDescription.getPCDescription(pcNumber));
+        content.add(PCDescription.getPCDescription());
         mainPanel.add(content);
         mainPanel.add(Header.getHeader());
         mainPanel.add(hr);
@@ -47,5 +48,15 @@ public class Dashboard {
 
     public JPanel getPanel() {
         return mainPanel;
+    }
+
+    public void updateContent() {
+    content.removeAll();
+    content.add(storeName);
+    content.add(PcList.getPcList());
+    content.add(Labels.getLabels());
+    content.add(PCDescription.getPCDescription());
+    content.revalidate();
+    content.repaint();
     }
 }

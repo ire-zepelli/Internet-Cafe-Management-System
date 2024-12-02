@@ -1,19 +1,14 @@
 package pages;
 
 import javax.swing.*;
-
-import auth.Auth;
 import dashboard.Dashboard;
-import data.Data;
-
 import java.awt.*;
 
 public class PageControl {
     JFrame frame = new JFrame("Armonia Internet Cafe");
     static JPanel panelCont = new JPanel();
     static CardLayout pages = new CardLayout();
-    Auth auth = new Auth();
-    static Dashboard dashboard;
+    static Dashboard dashboard = new Dashboard();
 
 
     public PageControl(){
@@ -22,11 +17,10 @@ public class PageControl {
 
 
     public void initialize(){
-        new Data();
         panelCont.setLayout(pages);
-        panelCont.add(auth.getPanel(), "dashboard");
+        panelCont.add(dashboard.getPanel(), "dashboard");
         
-        frame.setIconImage(Toolkit.getDefaultToolkit().getImage("public/armonia-logo-red.png"));
+        frame.setIconImage(Toolkit.getDefaultToolkit().getImage("public/icon.png"));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setSize(new Dimension(975, 725));
@@ -34,17 +28,24 @@ public class PageControl {
         frame.add(panelCont);
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
-
-    }
-
-    public static void showAuth(){
-        pages.show(panelCont, "auth");
     }
     
-    public static void showDashboard(int selectedPC){
-        dashboard = new Dashboard(selectedPC);
+    public static void showDashboard() {
+    if (dashboard == null) {
+        // Initialize and add the dashboard panel to the CardLayout only once
+        dashboard = new Dashboard();
         panelCont.add(dashboard.getPanel(), "dashboard");
-        pages.show(panelCont ,"dashboard");
+    } else {
+        // Optionally update the dashboard content dynamically
+        dashboard.updateContent();
     }
-
+    // Show the dashboard using CardLayout
+    pages.show(panelCont, "dashboard");
+    }
+    
+    // public static void showHome(){
+    //     home = new Home();
+    //     panelCont.add(home.getPanel(), "home");
+    //     pages.show(panelCont, "home");
+    // }
 }
