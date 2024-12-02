@@ -22,7 +22,7 @@ public class PageControl {
         panelCont.setLayout(pages);
         panelCont.add(auth.getPanel(), "auth");
         
-        frame.setIconImage(Toolkit.getDefaultToolkit().getImage("public/icon.png"));
+        frame.setIconImage(Toolkit.getDefaultToolkit().getImage("public/armonia-logo-red.png"));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setSize(new Dimension(975, 725));
