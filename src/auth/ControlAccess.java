@@ -10,7 +10,6 @@ public class ControlAccess {
     public static boolean Authenticate(String username, String password) throws FileNotFoundException{
         File file = new File("userData.txt");
         Scanner scan = new Scanner(file);
-        
 
         while(scan.hasNextLine()){
             //if user is found
@@ -31,6 +30,7 @@ public class ControlAccess {
                     return true;
                 }              
             }
+            scan.close();
         }
 
         return false;
