@@ -2,12 +2,22 @@ package dashboard.pc_description;
 
 import javax.swing.*;
 
+import dashboard.Dashboard;
+import dashboard.pc_list.PCSession;
+import dashboard.pc_list.PcList;
+import pages.PageControl;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Locale;
+import java.util.TimerTask;
 
 public class PCDescription {
     static JLabel mainLabel = new JLabel("<html><div style='text-align: center;'>Select <br/> a PC <br/> to <br /> preview: </div></html>");
     static JPanel mainPanel = new JPanel();
+    static JButton startButton = new JButton("START SESSION");
+    static JLabel pcNumber = new JLabel();
 
     
     public static JPanel getPCDescription () {
@@ -16,14 +26,23 @@ public class PCDescription {
         mainPanel.setBounds(585, 30, 300, 500);
         mainPanel.setBackground(new Color(83, 88, 94));
 
-        // mainLabel.setFont(new Font("Inter", Font.BOLD, 55));
-        // mainLabel.setBounds(30,35,300,400);
-        // mainLabel.setForeground(Color.WHITE);
-        // mainPanel.add(mainLabel);
+        mainLabel.setFont(new Font("Inter", Font.BOLD, 55));
+        mainLabel.setBounds(30,35,300,400);
+        mainLabel.setForeground(Color.WHITE);
+        mainPanel.add(mainLabel);
 
-        
-        JButton startButton = new JButton("START SESSION");
+        return mainPanel;
 
+    }
+
+    public static void startSession(int pc){
+       if (pcNumber.getText().equals("PC " + pc)){
+            return;
+        }
+
+        mainPanel.removeAll();
+
+        startButton.setText("CALCULATE SESSION");
         startButton.setBounds(0,440,300,60);
         startButton.setBackground(Color.decode("#A62122"));
         startButton.setForeground(Color.WHITE);
@@ -34,10 +53,9 @@ public class PCDescription {
         startButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         mainPanel.add(startButton);
 
-        JLabel pcNumber = new JLabel("PC 1");
         pcNumber.setFont(new Font("Inter",Font.BOLD, 18));
         pcNumber.setForeground(Color.WHITE);
-        pcNumber.setBounds(130,0,50,50);
+        pcNumber.setBounds(130,0,60,50);
         mainPanel.add(pcNumber);
         
         JLabel categoryLabel = new JLabel("CATEGORY");
@@ -103,10 +121,10 @@ public class PCDescription {
         hourTimer.setBorder(BorderFactory.createEmptyBorder());
         mainPanel.add(hourTimer);
 
-        JTextField secondTimer = new JTextField();
-        secondTimer.setBounds(165,165,30,20);
-        secondTimer.setBorder(BorderFactory.createEmptyBorder());
-        mainPanel.add(secondTimer);
+        JTextField minuteTimer = new JTextField();
+        minuteTimer.setBounds(165,165,30,20);
+        minuteTimer.setBorder(BorderFactory.createEmptyBorder());
+        mainPanel.add(minuteTimer);
 
         JLabel addOnLabel = new JLabel("ADD ON: ");
         addOnLabel.setFont(new Font("Inter",Font.BOLD, 10));
@@ -156,25 +174,180 @@ public class PCDescription {
         subtotalLabel.setBounds(20,300,200,100);
         mainPanel.add(subtotalLabel);
 
-        JLabel cashLabel = new JLabel("P100");
+        JLabel cashLabel = new JLabel("P0.00");
         cashLabel.setFont(new Font("Inter",Font.BOLD, 35));
         cashLabel.setForeground(Color.WHITE);
         cashLabel.setBounds(110,345,200,100);
         mainPanel.add(cashLabel);
+
+        pcNumber.setText("PC " + pc);
+
+
+        addAction(startButton, pc, hourTimer, minuteTimer, cashLabel);
+
+        mainPanel.revalidate();
+        mainPanel.repaint();
+    }
+
+    public static void viewSession(int pc){
+        mainPanel.removeAll();
+
+        int price = PcList.getPC(pc-1).calculateAmountToPay();
+        int length = PcList.getPC(pc-1).getSession().getSessionLength();
+        String start = PcList.getPC(pc-1).getSession().getStartTime();
+
+        mainLabel = new JLabel("<html> <p style='font-size: 25px; text-align: center;'> Length: "+length+"min/s <br/> Start: "+start+" <br/> Total: P"+price+".00 <br/></p></html>");
+
+        mainLabel.setFont(new Font("Inter", Font.BOLD, 55));
+        mainLabel.setBounds(25,20,300,200);
+        mainLabel.setForeground(Color.white);
+
+        pcNumber.setFont(new Font("Inter",Font.BOLD, 18));
+        pcNumber.setForeground(Color.WHITE);
+        pcNumber.setBounds(130,0,60,50);
+        pcNumber.setText("PC " + pc);
+
+        startButton.setText("END SESSION");
+
+        JLabel extendLabel = new JLabel("EXTEND TIME:");
+        extendLabel.setFont(new Font("Inter", Font.BOLD, 10));
+        extendLabel.setForeground(Color.WHITE);
+        extendLabel.setBounds(20,200, 100,100);
         
-        return mainPanel;
+        JButton extend30 = new JButton("+30");
+        extend30.setBounds(20,275,65, 80);
+        extend30.setBackground(Color.decode("#232529"));
+        extend30.setForeground(Color.WHITE);
+        extend30.setLayout(null);
+        extend30.setFocusPainted(false);
+        extend30.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
+        mainPanel.add(pcNumber);
+        mainPanel.add(startButton);
+        mainPanel.add(extendLabel);
+        mainPanel.add(extend30);
+        mainPanel.add(mainLabel);
+
+        extendTime(extend30, pc, mainLabel);
+        endSession(startButton, pc);
+
+        mainPanel.revalidate();
+        mainPanel.repaint();
     }
 
-    public static void startSession(String text){
+    public static void outOfOrder(int pc){
+        if(pcNumber.getText().equals("" + pc)){
+            return;
+        }
 
+        mainPanel.removeAll();
+
+        pcNumber.setText("" + pc);
+
+        mainLabel.setText("<html> <p style='font-size: 25px; text-align: center;'>OUT<br/>OF<br/>ORDER</p></html>");
+        mainPanel.add(mainLabel);
+
+        mainPanel.revalidate();
+        mainPanel.repaint();
+    }
+    
+    public static void extendTime(JButton btn, int pc, JLabel label){
+        if(btn.getActionListeners().length == 0){
+            btn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {  
+                    int length = PcList.getPC(pc-1).getSession().getSessionLength()+30;
+                    PcList.getPC(pc-1).getSession().setSessionLength(length);
+                    int price = PcList.getPC(pc-1).calculateAmountToPay(); 
+                    String start = PcList.getPC(pc-1).getSession().getStartTime(); 
+                    
+                    label.setText("<html> <p style='font-size: 25px; text-align: center;'> Length: "+length+"min/s <br/> Start: "+start+" <br/> Total: P"+price+".00 <br/></p></html>");
+
+                    label.repaint();
+                    label.revalidate();
+                }
+            });
+        }
     }
 
-    public static void viewSession(String pcNumber){
-        mainLabel.setText("Oten" + pcNumber + " ");
-    }
+    public static void endSession(JButton btn, int pc){
+            for (ActionListener listener : btn.getActionListeners()) {
+                btn.removeActionListener(listener);
+            }
+            
+            btn.addActionListener(new ActionListener() {
+                
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    PcList.getPC(pc-1).endSession(pc-1);
+                    mainPanel.removeAll();
 
-    public static void outOfOrder(){
-        mainLabel.setText("OutOfOrder");
+                    System.out.println("Ending session");
+                    
+                    mainLabel.setText("<html><div style='text-align: center;'>Select <br/> a PC <br/> to <br /> preview: </div></html>");
+                    PcList.getPCStatus(pc-1).setText("<html><span style='color: red; font-size: 14px;'>•</span></html>");
+                    
+                    Timer changeToGreen = new Timer(2000,new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            PcList.getPCStatus(pc-1).setText("<html><span style='color: #00FF00; font-size: 14px;'>•</span></html>");
+                            pcNumber.setText("");
+                        } 
+                    });
+
+                    changeToGreen.setRepeats(false);
+                    changeToGreen.start();
+                    
+                    mainPanel.add(mainLabel);   
+
+                    PageControl.showDashboard();
+                }
+            });
+}
+
+    public static void addAction(JButton btn, int pc, JTextField hour, JTextField minute, JLabel cashLabel){
+            for (ActionListener listener : btn.getActionListeners()) {
+                btn.removeActionListener(listener);
+                }
+
+            btn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(minute.getText().equals("") || hour.getText().equals("")) return;
+                    int sessionLength = (Integer.parseInt(hour.getText()) * 60) + Integer.parseInt(minute.getText());
+                    int subtotal = (int) Math.ceil(sessionLength * 0.33);
+
+                    // System.out.println("PC: "+ pc);
+                    // System.out.println("Length: " + sessionLength);
+                    // System.out.println("Total: " + subtotal);
+                    
+                    if(btn.getText().equals("START SESSION")){
+                        PcList.getPC(pc - 1).startSession(sessionLength, pc);
+                        PcList.getPCStatus(pc - 1).setText("<html><span style='color: yellow; font-size: 14px;'>•</span></html>");
+                        PcList.getPCStatus(pc - 1).revalidate();
+                        PcList.getPCStatus(pc - 1).repaint();
+                        
+                        mainLabel.setFont(new Font("Inter", Font.BOLD, 55));
+                        mainLabel.setBounds(30,35,300,400);
+                        mainLabel.setForeground(Color.WHITE);
+                        
+                        mainPanel.removeAll();
+                        mainPanel.add(mainLabel);
+
+                        mainPanel.repaint();
+                        mainPanel.revalidate();
+
+                        PageControl.showDashboard();
+                    }
+
+                    cashLabel.setText("P" + subtotal + ".00");
+                    cashLabel.revalidate();
+                    cashLabel.repaint();
+
+                    btn.setText("START SESSION");
+                    btn.revalidate();
+                    btn.repaint();
+                }
+            });
     }
 }

@@ -12,7 +12,8 @@ import header.*;
 import sidebar.SideBar;
 
 public class Dashboard {
-    private JPanel mainPanel, hr, content;
+    private static JPanel mainPanel;
+    private JPanel hr, content;
     private JLabel storeName;
 
     public Dashboard() {
@@ -47,5 +48,15 @@ public class Dashboard {
 
     public JPanel getPanel() {
         return mainPanel;
+    }
+
+    public void updateContent() {
+    content.removeAll();
+    content.add(storeName);
+    content.add(PcList.getPcList());
+    content.add(Labels.getLabels());
+    content.add(PCDescription.getPCDescription());
+    content.revalidate();
+    content.repaint();
     }
 }

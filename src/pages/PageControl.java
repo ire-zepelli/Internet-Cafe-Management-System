@@ -8,7 +8,7 @@ public class PageControl {
     JFrame frame = new JFrame("Armonia Internet Cafe");
     static JPanel panelCont = new JPanel();
     static CardLayout pages = new CardLayout();
-    Dashboard dashboard = new Dashboard();
+    static Dashboard dashboard = new Dashboard();
 
 
     public PageControl(){
@@ -30,8 +30,17 @@ public class PageControl {
         frame.setLocationRelativeTo(null);
     }
     
-    public static void showDashboard(int pcNumber){
-        pages.show(panelCont, "dashboard");
+    public static void showDashboard() {
+    if (dashboard == null) {
+        // Initialize and add the dashboard panel to the CardLayout only once
+        dashboard = new Dashboard();
+        panelCont.add(dashboard.getPanel(), "dashboard");
+    } else {
+        // Optionally update the dashboard content dynamically
+        dashboard.updateContent();
+    }
+    // Show the dashboard using CardLayout
+    pages.show(panelCont, "dashboard");
     }
     
     // public static void showHome(){
