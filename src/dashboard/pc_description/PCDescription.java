@@ -78,6 +78,7 @@ public class PCDescription {
         studentButton.setLayout(null);
         studentButton.setFocusPainted(false);
         studentButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        studentButton.setEnabled(false);
         mainPanel.add(studentButton);
 
         JButton vipButton = new JButton("VIP");
@@ -88,6 +89,7 @@ public class PCDescription {
         vipButton.setLayout(null);
         vipButton.setFocusPainted(false);
         vipButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        vipButton.setEnabled(false);
         mainPanel.add(vipButton);
 
         JButton adminButton = new JButton("A");
@@ -98,6 +100,7 @@ public class PCDescription {
         adminButton.setLayout(null);
         adminButton.setFocusPainted(false);
         adminButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        adminButton.setEnabled(false);
         mainPanel.add(adminButton);
         
         JLabel sessionLabel = new JLabel("SESSION LENGTH");
@@ -109,18 +112,36 @@ public class PCDescription {
         JLabel column = new JLabel(":");
         column.setFont(new Font("Inter",Font.BOLD, 15));
         column.setForeground(Color.WHITE);
-        column.setBounds(155,123,100,100);
+        column.setBounds(173,123,100,100);
         mainPanel.add(column);
         
-        JTextField hourTimer = new JTextField();
-        hourTimer.setBounds(120,165,30,20);
-        hourTimer.setBorder(BorderFactory.createEmptyBorder());
-        mainPanel.add(hourTimer);
+        String[] hours = new String[24];
+        for (int i = 0; i < 24; i++)
+        {
+            hours[i] = String.format("%02d",i);
+        }
 
-        JTextField minuteTimer = new JTextField();
-        minuteTimer.setBounds(165,165,30,20);
-        minuteTimer.setBorder(BorderFactory.createEmptyBorder());
-        mainPanel.add(minuteTimer);
+        JComboBox <String> hourComboBox = new JComboBox<>(hours);
+        hourComboBox.setBounds(120,165, 50, 20);
+        hourComboBox.setBackground(Color.decode("#232529"));
+        hourComboBox.setForeground(Color.WHITE);
+        hourComboBox.setFont(new Font("Inter",Font.PLAIN, 12));
+        hourComboBox.setBorder(BorderFactory.createEmptyBorder());
+        mainPanel.add(hourComboBox);
+
+        String[] minutes = new String [60];
+        for (int i = 0; i < 60; i++)
+        {
+            minutes[i] = String.format("%02d",i);
+        }
+
+        JComboBox <String> minuteComboBox = new JComboBox<>(minutes);
+        minuteComboBox.setBounds(180,165, 50, 20);
+        minuteComboBox.setBackground(Color.decode("#232529"));
+        minuteComboBox.setForeground(Color.WHITE);
+        minuteComboBox.setFont(new Font("Inter",Font.PLAIN, 12));
+        minuteComboBox.setBorder(BorderFactory.createEmptyBorder());
+        mainPanel.add(minuteComboBox);
 
         JLabel addOnLabel = new JLabel("ADD ON: ");
         addOnLabel.setFont(new Font("Inter",Font.BOLD, 10));
@@ -128,37 +149,42 @@ public class PCDescription {
         addOnLabel.setBounds(20,160,100,100);
         mainPanel.add(addOnLabel);
 
-        JButton addOn1 = new JButton();
+        JButton addOn1 = new JButton("Canton");
         addOn1.setBounds(20,225,65,80);
         addOn1.setBackground(Color.decode("#232529"));
         addOn1.setForeground(Color.WHITE);
+        addOn1.setFont(new Font("Inter", Font.BOLD, 6));
         addOn1.setLayout(null);
         addOn1.setFocusPainted(false);
         addOn1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         mainPanel.add(addOn1);
+        
 
-        JButton addOn2 = new JButton();
+        JButton addOn2 = new JButton("Coffee");
         addOn2.setBounds(85,225,65,80);
         addOn2.setBackground(Color.decode("#232529"));
         addOn2.setForeground(Color.WHITE);
+        addOn2.setFont(new Font("Inter", Font.BOLD, 6));
         addOn2.setLayout(null);
         addOn2.setFocusPainted(false);
         addOn2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         mainPanel.add(addOn2);
 
-        JButton addOn3 = new JButton();
+        JButton addOn3 = new JButton("Soda");
         addOn3.setBounds(150,225,65,80);
         addOn3.setBackground(Color.decode("#232529"));
         addOn3.setForeground(Color.WHITE);
+        addOn3.setFont(new Font("Inter", Font.BOLD, 6));
         addOn3.setLayout(null);
         addOn3.setFocusPainted(false);
         addOn3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         mainPanel.add(addOn3);
 
-        JButton addOn4 = new JButton();
+        JButton addOn4 = new JButton("Water");
         addOn4.setBounds(215,225,65,80);
         addOn4.setBackground(Color.decode("#232529"));
         addOn4.setForeground(Color.WHITE);
+        addOn4.setFont(new Font("Inter", Font.BOLD, 6));
         addOn4.setLayout(null);
         addOn4.setFocusPainted(false);
         addOn4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -178,8 +204,12 @@ public class PCDescription {
 
         pcNumber.setText("PC " + pc);
 
+        addOn1.setEnabled(false);
+        addOn2.setEnabled(false);
+        addOn3.setEnabled(false);
+        addOn4.setEnabled(false);
 
-        addAction(startButton, pc, hourTimer, minuteTimer, cashLabel);
+        addAction(startButton, pc, hourComboBox, minuteComboBox, cashLabel);
 
         mainPanel.revalidate();
         mainPanel.repaint();
@@ -325,7 +355,7 @@ public class PCDescription {
             });
 }
 
-    public static void addAction(JButton btn, int pc, JTextField hour, JTextField minute, JLabel cashLabel){
+    public static void addAction(JButton btn, int pc, JComboBox<String> hourComboBox, JComboBox<String> minuteComboBox,JLabel cashLabel){
             for (ActionListener listener : btn.getActionListeners()) {
                 btn.removeActionListener(listener);
                 }
@@ -333,8 +363,11 @@ public class PCDescription {
             btn.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if(minute.getText().equals("") || hour.getText().equals("")) return;
-                    int sessionLength = (Integer.parseInt(hour.getText()) * 60) + Integer.parseInt(minute.getText());
+
+                    String hourText = (String) hourComboBox.getSelectedItem();
+                    String minuteText = (String) minuteComboBox.getSelectedItem();
+                    if(hourText == null || minuteText == null || hourText.isEmpty() || minuteText.isEmpty()) return;
+                    int sessionLength = (Integer.parseInt(hourText) * 60) + Integer.parseInt(minuteText);
                     int subtotal = (int) Math.ceil(sessionLength * 0.33);
 
                     // System.out.println("PC: "+ pc);
